@@ -2,6 +2,8 @@ import { initializeApp } from 'firebase/app';
 import { getAnalytics } from 'firebase/analytics';
 import {getAuth} from 'firebase/auth';
 
+
+
 const firebaseConfig = {
     apiKey: "AIzaSyCbP86OwyQJ9OWVmA8Xya0dQHJQv5w5Peg",
     authDomain: "jira-e7806.firebaseapp.com",
@@ -14,7 +16,11 @@ const firebaseConfig = {
   };
 
 
-const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-const analytics = getAnalytics(app);
+ const app = initializeApp(firebaseConfig);
+ const auth = getAuth(app);
+ const analytics = getAnalytics(app);
 
+
+export{
+  auth
+}
