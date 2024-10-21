@@ -1,3 +1,4 @@
+import AuthProfileDropDown from "../../Shared/AuthProfileDropDown/index.js";
 import "./index.css";
 import { Flex, Button } from "antd";
 
@@ -7,7 +8,7 @@ const Header = () => {
         <Flex justify="space-between" align="center">
             <p>Left</p>
             <div>
-            <Button>Sign in</Button>
+            <AuthProfileDropDown/>
             </div>
         </Flex>
     </div>
