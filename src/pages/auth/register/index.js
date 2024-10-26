@@ -1,8 +1,9 @@
 import  React, { useState } from "react";
 import  { createUserWithEmailAndPassword } from "firebase/auth";
-import  { auth } from "../../../Services/Firebase/index.js";
-import  { Form,Button,Input,Flex } from "antd";
+import  { auth, db } from "../../../Services/Firebase/index.js";
+import  { Form ,Button, Input, Flex } from "antd";
 import { regexValidation , ROUTE_CONSTANTS} from "../../../core/utils/constants.js";
+import { setDoc, doc } from "firebase/firestore";
 import { Link, Route, useNavigate } from "react-router-dom";
 import AuthWrapper from "../../../Components/Shared/AuthWrapper/index.js";
 import registerBanner from "../../../core/images/register-auth.jpg";
@@ -17,26 +18,29 @@ const Register = () => {
    const handleRegister = async (values) => {
 
        setLoading(true);
-       const {email,password} = values;
+       const { firstName, lastName, email, password } = values;
 
        try{
-        
-         await createUserWithEmailAndPassword(auth,email,password);
-         navigate(ROUTE_CONSTANTS.LOGIN);
-       }
+            const response = await createUserWithEmailAndPassword(auth,email,password);
+            const { uid } = response.user; 
 
-       catch(e){
+            const createDoc = doc(db,"registeredUsers", uid); 
+           
+            
+            await setDoc(createDoc,{
+              uid, firstName, lastName, email 
+            });
+            
+            navigate(ROUTE_CONSTANTS.LOGIN);
+       }catch(e){
             console.log(e);
             
-       }
+         }finally{
+            setLoading(false);
+       };
+  };
 
-       finally{
-        setLoading(false);
-       }
-
-   };
-
-    return (
+    return(
     <AuthWrapper title="Sign up" banner = {registerBanner}>
         <Form layout="vertical" form={form} onFinish={handleRegister}>
 
