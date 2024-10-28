@@ -6,7 +6,7 @@ import { Flex, Button } from "antd";
 import { Link } from "react-router-dom";
 import { ROUTE_CONSTANTS } from "../../../core/utils/constants.js";
 const Header = () => {
-  const {isAuth} = useContext(AuthContext);
+  const {isAuth , userProfileInfo} = useContext(AuthContext);
   
   return (
     <div className = "main-header">
@@ -14,7 +14,7 @@ const Header = () => {
             <p>Left</p>
             <div>
                  {
-                  isAuth ? <AuthProfileDropDown/> : <Link to={ROUTE_CONSTANTS.LOGIN}><Button>Sign in</Button></Link>
+                  isAuth ? <AuthProfileDropDown userProfileInfo = {userProfileInfo}/> : <Link to={ROUTE_CONSTANTS.LOGIN}><Button>Sign in</Button></Link>
                  }
             </div>
         </Flex>

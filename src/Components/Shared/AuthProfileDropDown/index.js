@@ -4,16 +4,24 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../../../Services/Firebase/index.js";
 import { ROUTE_CONSTANTS } from "../../../core/utils/constants.js";
 import './index.css';
+import { Component } from "react";
+
 
 const {Text} = Typography;
 const {useToken} = theme;
 
-const AuthProfileDropDown = () => {
+const getFullNameLetters = ({firstName,lastName}) => {
+   if(firstName && lastName){
+      return `${firstName[0]} ${lastName[0]}`
+   }
+   return '-';
+
+}
+const AuthProfileDropDown = ({userProfileInfo}) => {
+
    const navigate = useNavigate();
    const {token} = useToken();
-   
    const handleSignOut = async () => {
-      
       
       try{
          await signOut(auth);
@@ -60,8 +68,8 @@ const AuthProfileDropDown = () => {
                       <div>
                         <Flex vertical align="center" style={{padding : token.sizeMS}}>
                          <Avatar src="https://png.pngtree.com/png-vector/20220709/ourmid/pngtree-businessman-user-avatar-wearing-suit-with-red-tie-png-image_5809521.png"/>
-                         <Text>John Smith</Text>
-                         <Text>JohnSmith@gmail.com</Text>
+                         <Text>{userProfileInfo.firstName} {userProfileInfo.lastName}</Text>
+                         <Text>{userProfileInfo.email}</Text>
                          </Flex>
                       </div>
                         {menu}
@@ -73,7 +81,7 @@ const AuthProfileDropDown = () => {
         
         >
           <Avatar size="large" className="user_profile_avatar">
-            J S
+                 {getFullNameLetters(userProfileInfo)}
           </Avatar>
 
           </Dropdown>
