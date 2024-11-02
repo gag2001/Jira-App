@@ -5,6 +5,7 @@ import  Profile  from './pages/Profile/index.js';
 import { getDoc,doc } from "firebase/firestore";
 import { RouterProvider , createBrowserRouter,  createRoutesFromElements, Route, Navigate } from 'react-router-dom';
 import Cabinet from "./pages/cabinet/index.js";
+import CabinetLayout from "./Components/Layout/Cabinet/index.js";
 import MainLayout from "./Components/Layout/Main/index.js";
 import LoadingWrapper from "./Components/Shared/LoadingWrapper/index.js";
 import { auth,db } from "./Services/Firebase/index.js"; 
@@ -42,7 +43,7 @@ const App = () => {
   });
 
   return (
-    <AuthContext.Provider value={{isAuth,userProfileInfo}}>
+    <AuthContext.Provider value={{ isAuth, userProfileInfo }}>
     <LoadingWrapper loading={loading}>
     <RouterProvider 
       router={
@@ -51,8 +52,16 @@ const App = () => {
           <Route path="/" element ={<MainLayout/>}>
             <Route path={ROUTE_CONSTANTS.LOGIN} element = { isAuth ? <Navigate to={ROUTE_CONSTANTS.CABINET}/> : <Login setIsAuth = {setIsAuth}/>}/>
             <Route path={ROUTE_CONSTANTS.REGISTER} element = {isAuth ? <Navigate to={ROUTE_CONSTANTS.CABINET}/> : <Register/>}/>
-            <Route path={ROUTE_CONSTANTS.CABINET} element = {isAuth ? <Cabinet/> : <Navigate to= {ROUTE_CONSTANTS.LOGIN}/>}/>
-            <Route path={ROUTE_CONSTANTS.PROFILE} element = {isAuth ? <Profile/> : <Navigate to= {ROUTE_CONSTANTS.LOGIN}/>}/>
+
+            {/*Cabinet Layout Route*/}
+            <Route path={ROUTE_CONSTANTS.CABINET} element = {isAuth ? <CabinetLayout/> : <Navigate to= {ROUTE_CONSTANTS.LOGIN}/>}>
+
+            
+                     <Route path={ROUTE_CONSTANTS.PROFILE} element = {<Profile/>}/>
+
+            </Route>
+            
+          
           </Route>,
 
       
